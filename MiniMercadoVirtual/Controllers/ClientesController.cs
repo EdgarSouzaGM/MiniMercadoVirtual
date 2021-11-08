@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MiniMercadoVirtual.Services;
 using MiniMercadoVirtual.Data;
 using MiniMercadoVirtual.Models;
-using MiniMercadoVirtual.Services;
 
 namespace MiniMercadoVirtual.Controllers
 {
@@ -15,9 +15,9 @@ namespace MiniMercadoVirtual.Controllers
     {
         private readonly ClientesService _clientesService;
 
-        public ClientesController(ClientesService service)
+        public ClientesController(ClientesService clientesService)
         {
-            _clientesService = service;
+            _clientesService = clientesService;
         }
 
         // GET: Clientes
@@ -58,6 +58,7 @@ namespace MiniMercadoVirtual.Controllers
         {
             if (ModelState.IsValid)
             {
+                cliente.DtInclusao = DateTime.Now;
                 _clientesService.Cadastrar(cliente);
                 return RedirectToAction(nameof(Index));
             }
@@ -95,6 +96,7 @@ namespace MiniMercadoVirtual.Controllers
             if (ModelState.IsValid)
             {
 
+                cliente.DtAlteracao = DateTime.Now;
                 _clientesService.Alterar(cliente);
                 return RedirectToAction(nameof(Index));
             }

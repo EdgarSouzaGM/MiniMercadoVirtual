@@ -33,5 +33,10 @@ namespace MiniMercadoVirtual.Services
             _context.Update(endereco);
             _context.SaveChanges();
         }
+        public void Excluir(Endereco endereco)
+        {
+            _context.Remove(endereco);
+            _context.SaveChanges();
+        }
     }
 }

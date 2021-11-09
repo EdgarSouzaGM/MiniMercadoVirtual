@@ -9,31 +9,31 @@
 </p>
 
 <h4>Cliente</h4>
-<div>
-    <table class="table col-md-12">
+<div class="row">
+    <table class="table">
         <tr>
-            <td class="col-sm-2"><strong>@Html.DisplayNameFor(model => model.Nome)</strong></td>
-            <td class="col-sm-10">@Html.DisplayFor(model => model.Nome)</td>
+            <td class="col-md-2"><strong>@Html.DisplayNameFor(model => model.Nome)</strong></td>
+            <td class="col-md-10">@Html.DisplayFor(model => model.Nome)</td>
         </tr>
         <tr>
-            <td class="col-sm-2"><strong>@Html.DisplayNameFor(model => model.Email)</strong></td>
-            <td class="col-sm-10">@Html.DisplayFor(model => model.Email)</td>
+            <td><strong>@Html.DisplayNameFor(model => model.Email)</strong></td>
+            <td>@Html.DisplayFor(model => model.Email)</td>
         </tr>
         <tr>
-            <td class="col-sm-2"><strong>@Html.DisplayNameFor(model => model.Senha)</strong></td>
-            <td class="col-sm-10">@Html.DisplayFor(model => model.Senha)</td>
+            <td><strong>@Html.DisplayNameFor(model => model.Senha)</strong></td>
+            <td>@Html.DisplayFor(model => model.Senha)</td>
         </tr>
         <tr>
-            <td class="col-sm-2"><strong>@Html.DisplayNameFor(model => model.DtInclusao)</strong></td>
-            <td class="col-sm-10">@Html.DisplayFor(model => model.DtInclusao)</td>
+            <td><strong>@Html.DisplayNameFor(model => model.DtInclusao)</strong></td>
+            <td>@Html.DisplayFor(model => model.DtInclusao)</td>
         </tr>
         <tr>
-            <td class="col-sm-2"><strong>@Html.DisplayNameFor(model => model.DtAlteracao)</strong></td>
-            <td class="col-sm-10">@Html.DisplayFor(model => model.DtAlteracao)</td>
+            <td><strong>@Html.DisplayNameFor(model => model.DtAlteracao)</strong></td>
+            <td>@Html.DisplayFor(model => model.DtAlteracao)</td>
         </tr>
         <tr>
-            <td class="col-sm-2"><strong>@Html.DisplayNameFor(model => model.Status)</strong></td>
-            <td class="col-sm-10">@Html.DisplayFor(model => model.Status)</td>
+            <td><strong>@Html.DisplayNameFor(model => model.Status)</strong></td>
+            <td>@Html.DisplayFor(model => model.Status)</td>
         </tr>
     </table>
 </div>
@@ -70,5 +70,5 @@
     </table>
 </div>
 <div>
-    <br /><a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> - <a class="btn btn-primary" asp-action="Index">Voltar</a>
+    <br /><a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> - <a class="btn btn-primary" asp-action="Index">Lista de Clientes</a>
 </div>

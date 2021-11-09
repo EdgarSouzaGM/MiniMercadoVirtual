@@ -22,7 +22,7 @@ namespace MiniMercadoVirtual.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return View(_clientesSevice.BuscarTodos());
         }
         //GET Endereco/Cadastrar
         public IActionResult Cadastrar()
@@ -36,7 +36,7 @@ namespace MiniMercadoVirtual.Controllers
         public IActionResult Criar(Endereco endereco)
         {
             _enderecosService.Criar(endereco);
-            return RedirectToAction(nameof(Cadastrar));
+            return RedirectToAction(nameof(Index));
         }
         //GET Endereco/Alterar
         public IActionResult Alterar(int id)
@@ -56,8 +56,21 @@ namespace MiniMercadoVirtual.Controllers
         public IActionResult Atualizar(Endereco endereco)
         {
             _enderecosService.Atualizar(endereco);
-            return RedirectToAction(nameof(Cadastrar));
+            return RedirectToAction(nameof(Index));
         }
-
+        //GET: Endereco/Excluir
+        public IActionResult Excluir(int id)
+        {
+            
+            return View(_enderecosService.BuscarPorId(id));
+        }
+        //POST: Endereco/Excluir
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ConfirmarExclusao(Endereco endereco)
+        {
+            _enderecosService.Excluir(endereco);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -13,27 +13,27 @@
     <table class="table">
         <tr>
             <td class="col-md-2"><strong>@Html.DisplayNameFor(model => model.Nome)</strong></td>
-            <td class="col-md-10">@Html.DisplayFor(model => model.Nome)</td>
+            <td class="col-md-10">@Model.Nome</td>
         </tr>
         <tr>
             <td><strong>@Html.DisplayNameFor(model => model.Email)</strong></td>
-            <td>@Html.DisplayFor(model => model.Email)</td>
+            <td>@Model.Email</td>
         </tr>
         <tr>
             <td><strong>@Html.DisplayNameFor(model => model.Senha)</strong></td>
-            <td>@Html.DisplayFor(model => model.Senha)</td>
+            <td>@Model.Senha</td>
         </tr>
         <tr>
             <td><strong>@Html.DisplayNameFor(model => model.DtInclusao)</strong></td>
-            <td>@Html.DisplayFor(model => model.DtInclusao)</td>
+            <td>@Model.DtInclusao</td>
         </tr>
         <tr>
             <td><strong>@Html.DisplayNameFor(model => model.DtAlteracao)</strong></td>
-            <td>@Html.DisplayFor(model => model.DtAlteracao)</td>
+            <td>@Model.DtAlteracao</td>
         </tr>
         <tr>
             <td><strong>@Html.DisplayNameFor(model => model.Status)</strong></td>
-            <td>@Html.DisplayFor(model => model.Status)</td>
+            <td>@Model.Status</td>
         </tr>
     </table>
 </div>
@@ -56,13 +56,13 @@
             @foreach (var item in Model.Endereco)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Cep)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Logradouro)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Numero)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Bairro)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Cidade)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Uf)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Complemento)</td>
+                    <td>@item.Cep</td>
+                    <td>@item.Logradouro</td>
+                    <td>@item.Numero</td>
+                    <td>@item.Bairro</td>
+                    <td>@item.Cidade</td>
+                    <td>@item.Uf</td>
+                    <td>@item.Complemento</td>
                     <td><a class="btn btn-primary btn-sm" asp-action="Alterar" asp-controller="Enderecos" asp-route-id="@item.Id">Editar</a></td>
                 </tr>
             }

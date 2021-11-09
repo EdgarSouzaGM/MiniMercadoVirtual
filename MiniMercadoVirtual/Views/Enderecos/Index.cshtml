@@ -25,7 +25,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
+                    @item.Nome
                 </td>
                 <td>
                     <table class="table">
@@ -45,13 +45,13 @@
                             @foreach (var endereco in item.Endereco)
                             {
                                 <tr>
-                                    <td>@Html.DisplayFor(modelItem => endereco.Cep)</td>
-                                    <td>@Html.DisplayFor(modelItem => endereco.Logradouro)</td>
-                                    <td>@Html.DisplayFor(modelItem => endereco.Numero)</td>
-                                    <td>@Html.DisplayFor(modelItem => endereco.Bairro)</td>
-                                    <td>@Html.DisplayFor(modelItem => endereco.Cidade)</td>
-                                    <td>@Html.DisplayFor(modelItem => endereco.Uf)</td>
-                                    <td>@Html.DisplayFor(modelItem => endereco.Complemento)</td>
+                                    <td>@endereco.Cep</td>
+                                    <td>@endereco.Logradouro</td>
+                                    <td>@endereco.Numero</td>
+                                    <td>@endereco.Bairro</td>
+                                    <td>@endereco.Cidade</td>
+                                    <td>@endereco.Uf</td>
+                                    <td>@endereco.Complemento</td>
                                     <td><a class="btn btn-primary btn-sm" asp-action="Alterar" asp-route-id="@endereco.Id">Editar</a> | <a class="btn btn-danger btn-sm" asp-action="Excluir" asp-route-id="@endereco.Id">Excluir</a></td>
                                 </tr>
                             }

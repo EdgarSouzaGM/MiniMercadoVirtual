@@ -17,5 +17,6 @@ namespace MiniMercadoVirtual.Models
         public string Cidade { get; set; }
         public string Uf { get; set; }
         public string Complemento { get; set; }
+        public int ClienteId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MiniMercadoVirtual.Models.Enums;
 
@@ -14,7 +15,7 @@ namespace MiniMercadoVirtual.Models
         public string Email { get; set; }
         [Required(ErrorMessage = "Campo senha é um campo obrigatório.")]
         public string Senha { get; set; }
-        public Endereco Endereco { get; set; }
+        public List<Endereco> Endereco { get; set; }
         [Display(Name ="Data de Cadastro")]
         public DateTime DtInclusao { get; set; }
         [Display(Name = "Data de Atualização")]

@@ -14,10 +14,12 @@ namespace MiniMercadoVirtual.Controllers
     public class ClientesController : Controller
     {
         private readonly ClientesService _clientesService;
+        private readonly EnderecosService _enderecoService;
 
-        public ClientesController(ClientesService clientesService)
+        public ClientesController(ClientesService clientesService,EnderecosService enderecosService)
         {
             _clientesService = clientesService;
+            _enderecoService = enderecosService;
         }
 
         // GET: Clientes
@@ -39,6 +41,8 @@ namespace MiniMercadoVirtual.Controllers
             {
                 return NotFound();
             }
+            var enderecos = _enderecoService.BuscarPorCliente(cliente.Id);
+            cliente.Endereco = enderecos;
 
             return View(cliente);
         }

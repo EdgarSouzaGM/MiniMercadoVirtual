@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MiniMercadoVirtual.Data;
+using MiniMercadoVirtual.Infra.Repository.Data;
 
-namespace MiniMercadoVirtual.Migrations
+namespace MiniMercadoVirtual.Infra.Migrations
 {
     [DbContext(typeof(MiniMercadoVirtualContext))]
-    [Migration("20211105211711_Primeira Migration")]
-    partial class PrimeiraMigration
+    [Migration("20211110194646_Migration Infra")]
+    partial class MigrationInfra
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace MiniMercadoVirtual.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MiniMercadoVirtual.Models.Cliente", b =>
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Cliente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,8 +33,6 @@ namespace MiniMercadoVirtual.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<int?>("EnderecoId");
-
                     b.Property<string>("Nome");
 
                     b.Property<string>("Senha");
@@ -43,12 +41,10 @@ namespace MiniMercadoVirtual.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EnderecoId");
-
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("MiniMercadoVirtual.Models.Endereco", b =>
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Endereco", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,6 +56,8 @@ namespace MiniMercadoVirtual.Migrations
 
                     b.Property<string>("Cidade");
 
+                    b.Property<int>("ClienteId");
+
                     b.Property<string>("Complemento");
 
                     b.Property<string>("Logradouro");
@@ -70,14 +68,53 @@ namespace MiniMercadoVirtual.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId");
+
                     b.ToTable("Endereco");
                 });
 
-            modelBuilder.Entity("MiniMercadoVirtual.Models.Cliente", b =>
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Produto", b =>
                 {
-                    b.HasOne("MiniMercadoVirtual.Models.Endereco", "Endereco")
-                        .WithMany()
-                        .HasForeignKey("EnderecoId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descricao");
+
+                    b.Property<DateTime>("DtAlteracao");
+
+                    b.Property<DateTime>("DtInclusao");
+
+                    b.Property<string>("Nome");
+
+                    b.Property<decimal>("Preco");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Produto");
+                });
+
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.TesteMigration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TesteMigration");
+                });
+
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Endereco", b =>
+                {
+                    b.HasOne("MiniMercadoVirtual.Domain.Cliente")
+                        .WithMany("Endereco")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

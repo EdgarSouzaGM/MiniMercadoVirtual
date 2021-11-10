@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MiniMercadoVirtual.Data;
+using MiniMercadoVirtual.Infra.Repository.Data;
 
-namespace MiniMercadoVirtual.Migrations
+namespace MiniMercadoVirtual.Infra.Migrations
 {
     [DbContext(typeof(MiniMercadoVirtualContext))]
-    [Migration("20211109190640_Alterado campo preco para decimal")]
-    partial class Alteradocampoprecoparadecimal
+    partial class MiniMercadoVirtualContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +19,7 @@ namespace MiniMercadoVirtual.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MiniMercadoVirtual.Models.Cliente", b =>
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Cliente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,14 +29,11 @@ namespace MiniMercadoVirtual.Migrations
 
                     b.Property<DateTime>("DtInclusao");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
-                    b.Property<string>("Nome")
-                        .IsRequired();
+                    b.Property<string>("Nome");
 
-                    b.Property<string>("Senha")
-                        .IsRequired();
+                    b.Property<string>("Senha");
 
                     b.Property<int>("Status");
 
@@ -47,7 +42,7 @@ namespace MiniMercadoVirtual.Migrations
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("MiniMercadoVirtual.Models.Endereco", b =>
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Endereco", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +71,7 @@ namespace MiniMercadoVirtual.Migrations
                     b.ToTable("Endereco");
                 });
 
-            modelBuilder.Entity("MiniMercadoVirtual.Models.Produto", b =>
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Produto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,8 +83,7 @@ namespace MiniMercadoVirtual.Migrations
 
                     b.Property<DateTime>("DtInclusao");
 
-                    b.Property<string>("Nome")
-                        .IsRequired();
+                    b.Property<string>("Nome");
 
                     b.Property<decimal>("Preco");
 
@@ -100,9 +94,22 @@ namespace MiniMercadoVirtual.Migrations
                     b.ToTable("Produto");
                 });
 
-            modelBuilder.Entity("MiniMercadoVirtual.Models.Endereco", b =>
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.TesteMigration", b =>
                 {
-                    b.HasOne("MiniMercadoVirtual.Models.Cliente")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TesteMigration");
+                });
+
+            modelBuilder.Entity("MiniMercadoVirtual.Domain.Endereco", b =>
+                {
+                    b.HasOne("MiniMercadoVirtual.Domain.Cliente")
                         .WithMany("Endereco")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade);

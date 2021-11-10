@@ -30,7 +30,7 @@
                     <td>@Html.DisplayFor(ModelItem => Item.Descricao)</td>
                     <td>@Html.DisplayFor(ModelItem => Item.Preco)</td>
                     <td>@Html.DisplayFor(ModelItem => Item.DtInclusao)</td>
-                    @if(Item.DtAlteracao == Convert.ToDateTime("01/01/0001 00:00:00"))
+                    @if (Item.DtAlteracao == Convert.ToDateTime("01/01/0001 00:00:00"))
                     {
                         <td></td>
                     }
@@ -38,7 +38,6 @@
                     {
                         <td>@Html.DisplayFor(ModelItem => Item.DtAlteracao)</td>
                     }
-                    
                     <td>@Html.DisplayFor(ModelItem => Item.Status)</td>
                     <th><a class="btn btn-primary btn-sm" asp-action="Alterar" asp-route-id="@Item.Id">Editar</a> | <a class="btn btn-danger btn-sm" asp-action="Excluir" asp-route-id="@Item.Id">Excluir</a></th>
                 </tr>

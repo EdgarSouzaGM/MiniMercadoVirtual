@@ -6,26 +6,39 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiniMercadoVirtual.Services;
-using MiniMercadoVirtual.Data;
 using MiniMercadoVirtual.Models;
+using MiniMercadoVirtual.Models.ViewModels;
 
 namespace MiniMercadoVirtual.Controllers
 {
     public class ClientesController : Controller
     {
-        private readonly ClientesService _clientesService;
-        private readonly EnderecosService _enderecoService;
-
-        public ClientesController(ClientesService clientesService,EnderecosService enderecosService)
+        private readonly IClientesService _iclientesService;
+        private readonly IEnderecosService _ienderecosService;
+        public ClientesController(IClientesService iclientesService, IEnderecosService enderecosService)
         {
-            _clientesService = clientesService;
-            _enderecoService = enderecosService;
+            _iclientesService = iclientesService;
+            _ienderecosService = enderecosService;
         }
 
         // GET: Clientes
         public IActionResult Index()
         {
-            return View(_clientesService.BuscarTodos());
+            var ClientesDomain = _iclientesService.BuscarTodos();
+            List<Cliente> Clientes = new List<Cliente>();
+            foreach (var item in ClientesDomain)
+            {
+                Cliente Cliente = new Cliente
+                {
+                    Id = item.Id,
+                    Nome = item.Nome,
+                    Email = item.Email,
+                    Senha = item.Senha,
+                    Status = (Models.Enums.StatusCliente)item.Status
+                };
+                Clientes.Add(Cliente);
+            }
+            return View(Clientes);
         }
 
         // GET: Clientes/Details
@@ -35,16 +48,43 @@ namespace MiniMercadoVirtual.Controllers
             {
                 return NotFound();
             }
-
-            var cliente = _clientesService.BuscarPorId(id.Value);
-            if (cliente == null)
+            var ClienteDomain = _iclientesService.BuscarPorId(id.Value);
+            Cliente Cliente = new Cliente();
+            if (ClienteDomain == null)
             {
                 return NotFound();
             }
-            var enderecos = _enderecoService.BuscarPorCliente(cliente.Id);
-            cliente.Endereco = enderecos;
-
-            return View(cliente);
+            else
+            {
+                Cliente.Id = ClienteDomain.Id;
+                Cliente.Nome = ClienteDomain.Nome;
+                Cliente.Email = ClienteDomain.Email;
+                Cliente.Senha = ClienteDomain.Senha;
+                Cliente.DtInclusao = ClienteDomain.DtInclusao;
+                Cliente.DtAlteracao = ClienteDomain.DtAlteracao;
+                Cliente.Status = (Models.Enums.StatusCliente)ClienteDomain.Status;
+            }
+            var EnderecosDomain = _ienderecosService.BuscarPorCliente(Cliente.Id);
+            if (EnderecosDomain != null)
+            {
+                foreach (var item in EnderecosDomain)
+                {
+                    Endereco endereco = new Endereco
+                    {
+                        Id = item.Id,
+                        Cep = item.Cep,
+                        Logradouro = item.Logradouro,
+                        Numero = item.Numero,
+                        Bairro = item.Bairro,
+                        Cidade = item.Cidade,
+                        Uf = item.Uf,
+                        Complemento = item.Complemento,
+                        ClienteId = item.ClienteId
+                    };
+                    Cliente.Endereco.Add(endereco);
+                }
+            }
+            return View(Cliente);
         }
 
         // GET: Clientes/Create
@@ -58,15 +98,21 @@ namespace MiniMercadoVirtual.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Cliente cliente)
+        public IActionResult Create(Cliente Cliente)
         {
             if (ModelState.IsValid)
             {
-                cliente.DtInclusao = DateTime.Now;
-                _clientesService.Cadastrar(cliente);
+                Domain.Cliente ClienteDomain = new Domain.Cliente
+                {
+                    Nome = Cliente.Nome,
+                    Email = Cliente.Email,
+                    Senha = Cliente.Senha,
+                    Status = (Domain.Enums.StatusCliente)Cliente.Status
+                };
+                _iclientesService.Cadastrar(ClienteDomain);
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(Cliente);
         }
 
         // GET: Clientes/Edit
@@ -77,34 +123,46 @@ namespace MiniMercadoVirtual.Controllers
                 return NotFound();
             }
 
-            var cliente = _clientesService.BuscarPorId(id.Value);
-            if (cliente == null)
+            var ClienteDomain = _iclientesService.BuscarPorId(id.Value);
+            if (ClienteDomain == null)
             {
                 return NotFound();
             }
-            return View(cliente);
+            Cliente Cliente = new Cliente
+            {
+                Id = ClienteDomain.Id,
+                DtInclusao = ClienteDomain.DtInclusao,
+                Nome = ClienteDomain.Nome,
+                Senha = ClienteDomain.Senha,
+                Email = ClienteDomain.Email,
+                Status = (Models.Enums.StatusCliente)ClienteDomain.Status
+            };
+            return View(Cliente);
         }
+
 
         // POST: Clientes/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Cliente cliente)
+        public IActionResult Edit(Cliente Cliente)
         {
-            if (id != cliente.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-
-                cliente.DtAlteracao = DateTime.Now;
-                _clientesService.Alterar(cliente);
+                Domain.Cliente ClienteDomain = new Domain.Cliente
+                {
+                    Id = Cliente.Id,
+                    DtInclusao = Cliente.DtInclusao,
+                    Nome = Cliente.Nome,
+                    Email = Cliente.Email,
+                    Senha = Cliente.Senha,
+                    Status = (Domain.Enums.StatusCliente)Cliente.Status
+                };
+                _iclientesService.Alterar(ClienteDomain);
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(Cliente);
         }
 
         // GET: Clientes/Delete
@@ -114,12 +172,21 @@ namespace MiniMercadoVirtual.Controllers
             {
                 return NotFound();
             }
-            var cliente = _clientesService.BuscarPorId(id.Value);
-            if (cliente == null)
+            var clienteDomain = _iclientesService.BuscarPorId(id.Value);
+            if (clienteDomain == null)
             {
                 return NotFound();
             }
-
+            Cliente cliente = new Cliente
+            {
+                Id = clienteDomain.Id,
+                Nome = clienteDomain.Nome,
+                Email = clienteDomain.Email,
+                Senha = clienteDomain.Senha,
+                DtInclusao = clienteDomain.DtInclusao,
+                DtAlteracao = clienteDomain.DtAlteracao,
+                Status = (Models.Enums.StatusCliente)clienteDomain.Status
+            };
             return View(cliente);
         }
 
@@ -128,8 +195,12 @@ namespace MiniMercadoVirtual.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var cliente = _clientesService.BuscarPorId(id);
-            _clientesService.Remover(cliente);
+            var cliente = _iclientesService.BuscarPorId(id);
+            if(cliente == null)
+            {
+                return NotFound();
+            }
+            _iclientesService.Remover(cliente);
             return RedirectToAction(nameof(Index));
         }
     }
